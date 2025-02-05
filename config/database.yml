@@ -15,6 +15,8 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  username: <%= ENV.fetch('POSTGRES_USER') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD') %>
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
@@ -55,7 +57,7 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *defaultp
+  <<: *default
   database: store_test
   url: <%= ENV['DATABASE_URL'] %>
 
@@ -82,5 +84,4 @@ test:
 production:
   <<: *default
   database: store_production
-  username: store
   url: <%= ENV['DATABASE_URL'] %>
