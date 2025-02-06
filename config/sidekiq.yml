@@ -1,6 +1,10 @@
 :concurrency: 3
 :timeout: 60
 :verbose: true
+:schedule:
+  mark_cart_as_abandoned:
+    name: "MonthlyReportJob"
+    cron: "* * * * *"
 :queues:
   - critical
   - default
