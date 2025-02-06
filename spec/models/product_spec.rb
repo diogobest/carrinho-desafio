@@ -19,5 +19,9 @@ RSpec.describe Product, type: :model do
       expect(product.valid?).to be_falsey
       expect(product.errors[:price]).to include("must be greater than or equal to 0")
     end
+
+    it 'validates has_many association with carts_products' do
+      expect(described_class.reflect_on_association(:carts_products).macro).to eq(:has_many)
+    end
   end
 end
