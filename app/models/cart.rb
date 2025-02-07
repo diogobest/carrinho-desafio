@@ -6,8 +6,14 @@ class Cart < ApplicationRecord
 
   before_validation :set_default_total_price
 
+  # before_save :update_abandoned_status
+
+  def update_abandoned_status
+    update(last_interaction_at: Time.now, abandoned: false)
+  end
+
   def abandoned?
-    last_interaction_at < 3.hours.ago
+    abandoned == true
   end
 
   def mark_as_abandoned
