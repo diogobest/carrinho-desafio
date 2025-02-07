@@ -30,6 +30,18 @@ RSpec.describe "/carts", type: :request do
         expect(response.body).to eq({ error: 'Cart not found' }.to_json)
       end
     end
+
+    context 'when the product is not found' do
+      subject do
+        post '/cart/add_items', params: { product_id: 999, quantity: 1 }, as: :json
+      end
+
+      it 'returns error message' do
+        subject
+
+        expect(response.body).to eq({ error: 'Product not found' }.to_json)
+      end
+    end
   end
 
   describe "GET /cart" do
@@ -48,7 +60,17 @@ RSpec.describe "/carts", type: :request do
     end
 
     context 'when there is a session' do
-      subject { get '/cart'}
+      subject do
+        get '/cart'
+      end
+
+      before do
+        dbl = ActionDispatch::Request::Session.new(Rails.application, {})
+        allow(ActionDispatch::Request::Session).to receive(:new).and_return(dbl)
+        allow(dbl).to receive(:dig).with(:cart, :id).and_return(cart.id)
+        allow(dbl).to receive(:options).and_return({})
+        allow(dbl).to receive(:id).and_return("123")
+      end
 
       it 'returns the cart' do
         subject
@@ -59,11 +81,12 @@ RSpec.describe "/carts", type: :request do
             {
               id: product.id,
               name: product.name,
-              price: product.price,
-              quantity: 1
+              quantity: 1,
+              unit_price: product.price,
+              total_price: "10.0"
             }
           ],
-          total_price: 10.0
+          total_price: "10.0"
         }.to_json)
       end
     end

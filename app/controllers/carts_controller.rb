@@ -1,6 +1,5 @@
 class CartsController < ApplicationController
-  # before_action :cart_not_found, only: %i[destroy show add_items]
-  before_action :initialize_cart
+  # before_action :initialize_cart
 
   def destroy
     @cart = Cart.find_by(id: cart_id)
@@ -27,8 +26,6 @@ class CartsController < ApplicationController
   end
 
   def add_items
-    # @cart = Cart.find_or_create_by(id: cart_id)
-    # @cart = Cart.find_by(id: session.dig(:cart, :id))
     @cart = CartItem.find_by(product_id: params[:product_id])&.cart
     product = Product.find(params[:product_id])
     quantity = params[:quantity].to_i
@@ -43,6 +40,9 @@ class CartsController < ApplicationController
     cart_item.save
 
     render json: json_response, status: :created
+
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Product not found' }, status: :not_found
   end
 
   def create
@@ -63,7 +63,6 @@ class CartsController < ApplicationController
   private
 
   def cart_id
-    binding.break
     session.dig(:cart, :id)
   end
 
@@ -96,12 +95,5 @@ class CartsController < ApplicationController
 
   def initialize_cart
     @cart = session[:cart] ||= {}
-  end
-
-  def cart_not_found
-    if session[:cart].blank?
-      render json: { error: 'Cart not found' }, status: :bad_request
-      return
-    end
   end
 end

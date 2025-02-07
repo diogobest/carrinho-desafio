@@ -26,4 +26,22 @@ RSpec.describe Cart, type: :model do
       expect { shopping_cart.remove_if_abandoned }.to change { Cart.count }.by(-1)
     end
   end
+
+  describe '.abandoned?' do
+    context 'when the shopping cart is abandoned' do
+      let(:shopping_cart) { create(:shopping_cart, abandoned: true) }
+
+      it 'returns true' do
+        expect(shopping_cart.abandoned?).to be_truthy
+      end
+    end
+
+    context 'when the shopping cart is not abandoned' do
+      let(:shopping_cart) { create(:shopping_cart, abandoned: false) }
+
+      it 'returns false' do
+        expect(shopping_cart.abandoned?).to be_falsey
+      end
+    end
+  end
 end
