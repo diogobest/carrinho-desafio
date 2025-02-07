@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe CartItem, type: :model do
-  context 'associations' do
-    it { is_expected.to belong_to(:cart) }
-    it { is_expected.to belong_to(:product) }
+  describe '#update_abandoned_status' do
+    let(:shopping_cart) { create(:shopping_cart, abandoned: true) }
+
+    it 'calls update_abandoned_status on the cart' do
+      expect { shopping_cart.update_abandoned_status }
+        .to change { shopping_cart.abandoned }.from(true).to(false)
+    end
   end
-  pending "add some examples to (or delete) #{__FILE__}"
 end

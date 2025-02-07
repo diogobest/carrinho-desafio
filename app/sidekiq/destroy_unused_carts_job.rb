@@ -1,4 +1,4 @@
-class DestroyUnusedCarts
+class DestroyUnusedCartsJob
   include Sidekiq::Job
 
   def perform(*args)
