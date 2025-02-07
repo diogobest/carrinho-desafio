@@ -1,3 +1,9 @@
+
+Caso facilite os testes, aqui tem as rotas no insomnia:
+
+[Uploading Insomnia_2025-02-07.json…]()
+
+
 # Desafio técnico e-commerce
 
 ## Nossas expectativas
