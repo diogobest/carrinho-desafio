@@ -1,7 +1,7 @@
-
 Caso facilite os testes, aqui tem as rotas no insomnia:
 
-[Uploading Insomnia_2025-02-07.json…]()
+[Insomnia_2025-02-07.json](https://github.com/user-attachments/files/18708037/Insomnia_2025-02-07.json)
+
 
 
 # Desafio técnico e-commerce
